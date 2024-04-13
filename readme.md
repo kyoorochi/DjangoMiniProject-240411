@@ -17,3 +17,7 @@ python manage.py startapp survey
 ```
 python manage.py createsuperuser
 ```
+### 관리자 페이지 언어 및 시간대 설정 변경
+```
+setting.py 부분에서 language 부분 ko-kr, timezone 부분을 Asia/Seoul 로 변경
+```
