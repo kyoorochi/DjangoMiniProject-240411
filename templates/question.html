@@ -1,31 +1,35 @@
 {% extends 'layouts/box.html' %}
-
 {% block content %}
 
 
 {% if questions.has_next %}
 <div class="flex items-center justify-center">
     {% for question in questions %}
-        {{ question.content }}  <!-- 현재 페이지의 질문 내용 출력 -->
-    {% endfor %}
+        {{ question.content }}  <!-- 현재 페이지의 질문 내용 출력 -->        
 </div><br><br>
 
-<ul class="flex items-center justify-center gap-24">
-    <li><a class="page-link bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600" href="?page={{ questions.next_page_number }}">예</a></li>
-    <li><a class="page-link bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600" href="?page={{ questions.next_page_number }}">아니오</a></li>
-</ul>
-
-{% else %}
-<div class="flex items-center justify-center">
-    {% for question in questions %}
-        {{ question.content }}  <!-- 마지막 페이지의 질문 내용 출력 -->
+<form method="post" action="{% url 'question' %}" class="flex items-center justify-center gap-24">
+    {% csrf_token %}
+    <input type="hidden" name="question_id" value="{{ question.id }}">
+    <input type="hidden" name="page" value="{{ questions.number }}">
+    <button type="submit" name="response" value="1" class="page-link bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">예</button>
+    <button type="submit" name="response" value="0" class="page-link bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">아니요</button>
+</form>
     {% endfor %}
-</div><br><br>
+    {% else %}
+    <div class="flex items-center justify-center">
+        {% for question in questions %} 
+        {{ question.content }}    <!-- 마지막 페이지의 질문 내용 출력 -->
+    </div><br><br>
 
-<ul class="flex items-center justify-center gap-24">
-    <li><a class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600" href="">예</a></li>
-    <li><a class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600" href="">아니오</a></li>
-</ul>
+<form method="post" action="{% url 'question' %}" class="flex items-center justify-center gap-24">
+    {% csrf_token %}
+    <input type="hidden" name="question_id" value="{{ question.id }}">
+    <input type="hidden" name="page" value="{{ questions.number }}">
+    <button class="page-link bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600" href="" type="submit" name="response" value="1">예</button>
+    <button class="page-link bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600" href="" type="submit" name="response" value="0">아니요</button>
+</form>
 
+    {% endfor %}
 {% endif %}
 {% endblock %}

@@ -15,7 +15,7 @@ class Question(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.content
+        return f'{self.content} - {self.is_active}'
 
 class Answer(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name='quizzes')
@@ -23,4 +23,4 @@ class Answer(models.Model):
     chosen_answer = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.participant.name} - {self.question.content}"
+        return f"{self.survey.name} - {self.question.content}"

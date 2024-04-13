@@ -21,3 +21,5 @@ python manage.py createsuperuser
 ```
 setting.py 부분에서 language 부분 ko-kr, timezone 부분을 Asia/Seoul 로 변경
 ```
+### 240413 - 설문테스트 및 응답자 분포도 차트 생성 완료 및 테스트 성공
+### 질문별 차트 및 테스트 준비중

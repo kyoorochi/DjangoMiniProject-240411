@@ -1,0 +1,12 @@
+{% extends 'layouts/box.html' %}
+
+{% block content %}
+<h2>설문에 응해주셔서 감사합니다.<br>
+선생님의 응답과 현재까지 포함된 누적 결과를 보시겠습니까?</h2><br>
+
+<form action="{% url 'result' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">결과보기</button>
+</form>
+
+{% endblock %}
