@@ -1,0 +1,18 @@
+{% if questions.has_next %}
+<div class="flex items-center justify-center">
+    {% for question in questions %}
+        {{ question.content }}  <!-- 현재 페이지의 질문 내용 출력 -->
+    {% endfor %}
+</div><br><br>
+
+<ul class="flex items-center justify-center gap-24">
+    <li><a class="page-link bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600" href="?page={{ questions.next_page_number }}">예</a></li>
+    <li><a class="page-link bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600" href="?page={{ questions.next_page_number }}">아니오</a></li>
+</ul>
+
+{% else %}
+<ul class="flex items-center justify-center">
+    <li><span class="page-link bg-indigo-500 text-white px-4 py-2 rounded">마지막 페이지입니다</span></li>
+</ul>
+{% endif %}
+{% endblock %}
