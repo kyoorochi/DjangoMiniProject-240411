@@ -70,12 +70,20 @@ def result_view(request):
     charts_html = []
 
     for question in Question.objects.filter(is_active=True):
-        question_results = Answer.objects.filter(question=question).values('survey__age_group', 'chosen_answer').annotate(count=Count('id')).order_by('survey__age_group', 'chosen_answer')
+        question_results = Answer.objects.filter(question=question).values('survey__age_group', 'chosen_answer', 'survey__gender').annotate(count=Count('id')).order_by('survey__age_group', 'chosen_answer', 'survey__gender')
 
         if question_results.exists():
             df = pd.DataFrame(list(question_results))
+
+            # 응답 옵션별 총 응답 수 계산
+            total_responses = df['count'].sum()
+            # 비율 계산
+            df['percentage'] = df['count'] / total_responses * 100
+            # 비율을 포함한 텍스트 생성
+            df['text'] = df['survey__age_group'] + ' (' + df['percentage'].round(1).astype(str) + '%)'
             df['chosen_answer'] = df['chosen_answer'].replace({'0': '아니오', '1': '예'})
-            fig = px.bar(df, x='chosen_answer', y='count', color='survey__age_group', title=f'질문: {question.content}', labels={'count':'응답 수', 'chosen_answer':'응답', 'survey__age_group':'연령대'})
+            df['survey__gender'] = df['survey__gender'].replace({'male': '남성', 'female': '여성'})
+            fig = px.bar(df, x='chosen_answer', y='count', color='survey__gender', barmode='group', text='text', title=f'질문: {question.content}', labels={'count':'응답 수', 'chosen_answer':'응답', 'survey__gender':'성별'})
             chart_html = pio.to_html(fig, full_html=False, default_height='500px', default_width='700px')
             charts_html.append(chart_html)
 
