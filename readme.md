@@ -1,26 +1,18 @@
-### 가상환경 설치 후 활성화
+# Survey Mini Project by Django (설문조사 미니프로젝트)
 ```
-python -m venv .venv
-.venv/scripts/activate (윈도우 기준)
+유튜브 영상 중에 해외영상을 하나 보고 따라 했으나 내가 원하던 모델들로 이루어지지 않았다.
+(회원가입 페이지를 만드는 영상이었기 때문)
+CSS 등을 비롯한 스타일 부분은 가져와 쓰되, 틀을 다시 짜야겠다는 생각으로 만들기 시작하였다.
 ```
-### 템플릿 폴더 생성 후 html 파일 넣음
-### requirements.txt를 생성후 필요한 패키지 넣기
+## 1. 준비과정
+[준비과정](readme/01.md)
+
+## 2. 코드 작성
 ```
-pip install -r requirements.txt
+동기의 도움도 받고 GPT도 활용하여 어찌저찌 코드는 완성하였다.
+시각화 부분이 내가 원하던 것의 90%는 충족하는 것 같아 이대로 두려고 한다.
+이제 남은건 ec2 인스턴스에 올려 배포하여 최종적으로 잘 작동하는지 확인하는 것 뿐이다.
+동기와 함께 주말을 포기한 보람이 있는 결과물인 것 같아 만족스럽다만...
+과연 혼자서 할 수 있을까....? (아래 링크는 로컬에서 테스트 한 결과물 스샷)
 ```
-### django 앱 생성
-```
-django-admin startproject core .
-python manage.py startapp survey
-```
-### 모델정의 후 슈퍼유저 생성
-```
-python manage.py createsuperuser
-```
-### 관리자 페이지 언어 및 시간대 설정 변경
-```
-setting.py 부분에서 language 부분 ko-kr, timezone 부분을 Asia/Seoul 로 변경
-```
-### 240413 - 설문테스트 및 응답자 분포도 차트 생성 완료 및 테스트 성공
-### 240414 - 질문당 차트 시각화 테스트 성공. 질문별 시각화 부분 수정 완료. 배포 준비중.
-![](https://github.com/kyoorochi/OSStudy/blob/9a5cbf774508a68c3cc88c1175db7a498a8ff98b/05-Day5/images/testresultimage.jpg)
+[코드 작성](readme/02.md)
