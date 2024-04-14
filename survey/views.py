@@ -73,8 +73,9 @@ def result_view(request):
         question_results = Answer.objects.filter(question=question).values('survey__age_group', 'chosen_answer').annotate(count=Count('id')).order_by('survey__age_group', 'chosen_answer')
 
         if question_results.exists():
-            df = pd.DataFrame(list(question_results))            
-            fig = px.bar(df, x='chosen_answer', y='count', color='survey__age_group', title=f'질문: {question.content}')
+            df = pd.DataFrame(list(question_results))
+            df['chosen_answer'] = df['chosen_answer'].replace({'0': '아니오', '1': '예'})
+            fig = px.bar(df, x='chosen_answer', y='count', color='survey__age_group', title=f'질문: {question.content}', labels={'count':'응답 수', 'chosen_answer':'응답', 'survey__age_group':'연령대'})
             chart_html = pio.to_html(fig, full_html=False)
             charts_html.append(chart_html)
 
