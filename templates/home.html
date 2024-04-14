@@ -3,7 +3,9 @@
 {% block content %}
 
     <div class="max-w-4xl mx-auto px-8 py-24">
-        <h1>설문조사 프로젝트 by Django</h1>
+        <h1>설문조사 프로젝트 by Django</h1><br>
+        <h4>수집된 데이터들은 제작자의 과제에만 이용될 뿐,<br>다른 목적으로는 절대 이용하지 않으니 안심하시고<br>
+            설문에 응해주시면 됩니다. 감사합니다. - 제작자 올림</h4><br>
 
         <form id="surveyForm" class="space-y-4" method="post">
             {% csrf_token %}
