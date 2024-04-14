@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.db.models import Count
 import plotly.express as px
 import plotly.io as pio
+import pandas as pd
 
 # Create your views here.
 def home_view(request):
@@ -64,4 +65,17 @@ def result_view(request):
     # 차트를 HTML로 변환
     pie_chart_html = pio.to_html(fig, full_html=False, default_height='500px', default_width='700px')
 
-    return render(request, 'result.html', {'pie_chart_html': pie_chart_html})
+    results = Answer.objects.values('question__content', 'survey__age_group', 'chosen_answer').order_by('question__content', 'survey__age_group', 'chosen_answer')
+
+    charts_html = []
+
+    for question in Question.objects.filter(is_active=True):
+        question_results = Answer.objects.filter(question=question).values('survey__age_group', 'chosen_answer').annotate(count=Count('id')).order_by('survey__age_group', 'chosen_answer')
+
+        if question_results.exists():
+            df = pd.DataFrame(list(question_results))
+            fig = px.bar(df, x='survey__age_group', y='count', color='chosen_answer', title=f'질문: {question.content}')
+            chart_html = pio.to_html(fig, full_html=False)
+            charts_html.append(chart_html)
+
+    return render(request, 'result.html', {'pie_chart_html': pie_chart_html, 'charts_html': charts_html})
