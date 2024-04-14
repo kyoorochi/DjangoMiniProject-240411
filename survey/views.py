@@ -73,8 +73,8 @@ def result_view(request):
         question_results = Answer.objects.filter(question=question).values('survey__age_group', 'chosen_answer').annotate(count=Count('id')).order_by('survey__age_group', 'chosen_answer')
 
         if question_results.exists():
-            df = pd.DataFrame(list(question_results))
-            fig = px.bar(df, x='survey__age_group', y='count', color='chosen_answer', title=f'질문: {question.content}')
+            df = pd.DataFrame(list(question_results))            
+            fig = px.bar(df, x='chosen_answer', y='count', color='survey__age_group', title=f'질문: {question.content}')
             chart_html = pio.to_html(fig, full_html=False)
             charts_html.append(chart_html)
 
