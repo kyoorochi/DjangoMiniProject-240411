@@ -6,4 +6,4 @@ python manage.py makemigrations
 python manage.py migrate
 
 # Django 개발 서버 시작
-python manage.py runserver 0.0.0.0:8000
+python manage.py runserver 0.0.0.0
