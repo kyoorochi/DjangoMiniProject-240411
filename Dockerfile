@@ -1,15 +1,14 @@
-# Docker 이미지의 기반을 정의 (Python 3.12 버전을 사용하는 공식 이미지)
-FROM python:3.12
-
-# 환경변수 설정 (Python이 버퍼링 없이 직접 콘솔에 출력하도록 함)
-ENV PYTHONUNBUFFERED 1
+# Docker 이미지의 기반이 될 파이썬 버전을 지정합니다.
+FROM python:3.8
 
 # 작업 디렉토리 설정
 WORKDIR /app
 
-# 의존성 파일 복사 및 설치
-COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+# 현재 디렉토리의 파일들을 컨테이너의 작업 디렉토리로 복사합니다.
+COPY . /app
 
-# 현재 디렉토리의 모든 파일을 컨테이너의 작업 디렉토리로 복사
-COPY . /app/
+# 필요한 패키지를 설치합니다.
+RUN pip install -r requirements.txt
+
+# uWSGI를 사용하여 애플리케이션을 실행합니다.
+CMD ["uwsgi", "--http", ":8000", "--module", "MiniSurveyProject-Django.wsgi"]
