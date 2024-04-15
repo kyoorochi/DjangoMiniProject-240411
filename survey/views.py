@@ -63,7 +63,8 @@ def result_view(request):
     fig = px.pie(data, values='counts', names='age_groups', title='응답자별 연령대')
 
     # 차트를 HTML로 변환
-    pie_chart_html = pio.to_html(fig, full_html=False, default_height='500px', default_width='700px')
+    pie_chart_html = pio.to_html(fig, full_html=False)
+    # , default_height='500px', default_width='700px'
 
     results = Answer.objects.values('question__content', 'survey__age_group', 'chosen_answer').order_by('question__content', 'survey__age_group', 'chosen_answer')
 
@@ -84,7 +85,8 @@ def result_view(request):
             df['chosen_answer'] = df['chosen_answer'].replace({'0': '아니오', '1': '예'})
             df['survey__gender'] = df['survey__gender'].replace({'male': '남성', 'female': '여성'})
             fig = px.bar(df, x='chosen_answer', y='count', color='survey__gender', barmode='group', text='text', title=f'질문: {question.content}', labels={'count':'응답 수', 'chosen_answer':'응답', 'survey__gender':'성별'})
-            chart_html = pio.to_html(fig, full_html=False, default_height='500px', default_width='700px')
+            chart_html = pio.to_html(fig, full_html=False)
+            # , default_height='500px', default_width='700px'
             charts_html.append(chart_html)
 
     return render(request, 'result.html', {'pie_chart_html': pie_chart_html, 'charts_html': charts_html})
